@@ -127,3 +127,20 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# image data folders/
+cell periphery/
+cytoplasm/
+endosome/
+er/
+golgi/
+mitochondrion/
+nuclear periphery/
+nucleolus/
+nucleus/
+peroxisome/
+spindle pole/
+vacuole/
+
+# files from source that shouldn't be pushed
+HOwt**

@@ -1,7 +1,6 @@
 import os
 import re
 import shutil
-import matplotlib.pyplot as plt
 import pandas as pd
 
 def get_filename_labels(imagedata_file, labels_file):
@@ -27,12 +26,12 @@ def mkdir_by_class(df):
 	"""
     nrows = df.shape[0]
     for i in range(nrows):
-        image = plt.imread(df.loc[i, "file"])
         label = df.loc[i, "label"]
         if not os.path.exists(label):
             os.makedirs(label)
-        filename = re.sub("^[a-z0-9]+/", "", df.loc[i, "file"])
-        plt.imsave(label+"/"+filename, image)
+        src = df.loc[i, "file"]
+        dst = label + re.sub("^[a-z0-9]+", "", src)
+        shutil.move(src,dst)
     return None
 
 def rmdir_by_plate():

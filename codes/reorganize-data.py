@@ -78,17 +78,34 @@ def main():
 	Reorganizes the image files from the folders plate01, plate02, etc into 
 	folders named by the classes of the images they contain.
 	"""
-    # collect filenames and labels
-    dfs = []
-    for filename in ["HOwt_test.txt", "HOwt_val.txt", "HOwt_train.txt"]:
-        dfs.append(get_filename_labels(filename, "HOwt_doc.txt"))
-    df = pd.concat(dfs, ignore_index=True)
-    # make directories by classes to store images
-    mkdir_by_class(df)
-    # remove unneeded directories
-    rmdir_by_plate()
-    # generate csv to keep track of files and labels
-    generate_csv()
+    # get directory of current file
+    file_dir = os.path.dirname(os.path.realpath(__file__))
+    # switch working directory to data directory 
+    main_dir = os.path.dirname(file_dir)
+    os.chdir(main_dir + "\\data")
+    # reorganize data if it is not organized already
+    labels_df = pd.read_csv("HOwt_doc.txt", sep=";")
+    cur_folders = [x[1] for x in os.walk(os.getcwd())][0]
+    exp_folders = ["plate0" + str(i) for i in range(1,10)] + ["plate10", "plate11"]
+    sor_folders = labels_df.label.to_list()
+    if cur_folders == exp_folders:      # data can be reorganized
+        # collect filenames and labels
+        dfs = []
+        for filename in ["HOwt_test.txt", "HOwt_val.txt", "HOwt_train.txt"]:
+            dfs.append(get_filename_labels(filename, "HOwt_doc.txt"))
+        df = pd.concat(dfs, ignore_index=True)
+        # make directories by classes to store images
+        mkdir_by_class(df)
+        # remove unneeded directories
+        rmdir_by_plate()
+        # generate csv to keep track of files and labels
+        generate_csv()
+        print("Data reorganization completed!")
+    elif cur_folders == sor_folders:    # data already reorganized
+        print("Data already reorganized!")
+    else:                               # data can't be reorganized
+        print("Sorry, unexpected folders found!")
+        raise Exception("Delete all folders in data/, unpack main.tar.gz and try again!")
     return None
 
 if __name__ == '__main__':

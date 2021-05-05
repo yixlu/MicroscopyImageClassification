@@ -131,3 +131,7 @@ dmypy.json
 # image data
 *.PNG
 data/HOwt_doc.txt
+data/HOwt_train.txt
+data/HOwt_val.txt
+data/HOwt_test.txt
+data/main.tar.gz

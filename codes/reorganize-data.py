@@ -2,6 +2,7 @@ import os
 import re
 import shutil
 import pandas as pd
+import numpy as np
 
 def get_filename_labels(imagedata_file, labels_file):
 	"""
@@ -51,13 +52,15 @@ def generate_csv():
 	- label_idx
 	- file
 	- path
+    - split
 	"""
     filenames = []
     labels = []
     paths = []
-    for root, dirs, _ in os.walk("."):
+    for _, dirs, _ in os.walk("."):
         for dir in dirs:
             for subroot, _, files in os.walk(dir):
+                # obtain filename, labels, paths, and splits for each image
                 for name in files:
                     filenames += [name]
                     labels += [dir]
@@ -70,8 +73,7 @@ def generate_csv():
     df = df.reset_index()
     # rearrange columns
     df = df[["label", "label_idx", "file", "path"]]
-    df.to_csv("labels-files.csv", index=False)
-    return None
+    return df
 
 def main():
     """
@@ -93,13 +95,25 @@ def main():
         dfs = []
         for filename in ["HOwt_test.txt", "HOwt_val.txt", "HOwt_train.txt"]:
             dfs.append(get_filename_labels(filename, "HOwt_doc.txt"))
+        # insert the train/test/valid split column
+        dfs[0]["split"] = "test"
+        dfs[1]["split"] = "valid"
+        dfs[2]["split"] = "train"
+        # concatenate dfs to form one large df
         df = pd.concat(dfs, ignore_index=True)
         # make directories by classes to store images
         mkdir_by_class(df)
         # remove unneeded directories
         rmdir_by_plate()
         # generate csv to keep track of files and labels
-        generate_csv()
+        print("Generating labels-files.csv")
+        labels_df = generate_csv()
+        # join both data frames on file name to extract data split
+        df["file"] = df["file"].str.split("/", expand=True)[1]
+        df = df[["file", "split"]].set_index("file").join(labels_df.set_index("file"))
+        df = df.reset_index()
+        df = df[["split", "label", "label_idx", "file", "path"]]
+        df.to_csv("labels-files.csv", index=False)
         print("Data reorganization completed!")
     elif cur_folders == sor_folders:    # data already reorganized
         print("Data already reorganized!")

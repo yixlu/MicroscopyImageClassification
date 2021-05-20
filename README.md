@@ -40,3 +40,5 @@ $ tar xzvf main.tar.gz
 ```
 $ python codes/reorganize-data.py
 ```
+
+6. This project contains code that calls Julia functions via PyJulia. To reproduce the full results, one needs to have Julia installed on their local machine. Visit [https://julialang.org/downloads/](https://julialang.org/downloads/) to download Julia. Once Julia is downloaded, you are set. There is no prior knowledge in Julia programming required as wrapper functions have been written in place for the purpose of this project.

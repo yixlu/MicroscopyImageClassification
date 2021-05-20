@@ -44,7 +44,7 @@ def get_channel(X, channel):
     - X: list of images
     - channel: channel to extract ("R", "G", or "B")
     """
-    channel_map = {"R": 0, "G": 1, "B": 2}
+    channel_map = {"R": 2, "G": 1, "B": 0}
     Xt = [None]*len(X)
     for (i, img) in enumerate(X):
         assert img.ndim == 3, "Image does not have 3 channels"

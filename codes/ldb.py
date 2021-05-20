@@ -1,6 +1,11 @@
 from julia import Main
 import numpy as np
 
+Main.eval("""
+using Pkg;
+Pkg.activate(".");
+Pkg.instantiate()
+""")
 Main.using("Wavelets")
 Main.using("WaveletsExt")
 

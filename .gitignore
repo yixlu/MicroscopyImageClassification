@@ -135,3 +135,6 @@ data/HOwt_train.txt
 data/HOwt_val.txt
 data/HOwt_test.txt
 data/main.tar.gz
+
+# cache settings
+.vscode

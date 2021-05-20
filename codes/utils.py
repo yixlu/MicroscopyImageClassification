@@ -4,8 +4,8 @@ import os
 
 def load_data():
     """
-    Loads the train, validation, and test images in 3 separate lists along with their
-    respective labels.
+    Loads the train, validation, and test images in 3 separate lists along with 
+    their respective labels.
 
     Results are returned in the form of 3 tuples:
     (X_train, y_train), (X_valid, y_valid), (X_test, y_test)

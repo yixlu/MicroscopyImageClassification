@@ -1,6 +1,15 @@
+# install PyCall from Julia's end
+import julia
+julia.install()
+
 from julia import Main
+import os
 import numpy as np
 
+# set current directory as working directory
+filedir = os.path.dirname(os.path.realpath(__file__))
+os.chdir(filedir)
+# activate current environment
 Main.eval("""
 using Pkg;
 Pkg.activate(".");

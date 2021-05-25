@@ -109,7 +109,7 @@ class image_preprocessing:
                 mask = self.mask
             assert len(src) == len(mask), "Number of source images and number of masks do not equal."
             for (i,(g,m)) in enumerate(zip(src,mask)):
-                assert len(np.unique(m)) == 2, "Mask is not binary."
+                #assert len(np.unique(m)) == 2, "Mask is not binary"
                 self.normalized[i]=cv2.normalize(g, 0, 255, norm_type=cv2.NORM_MINMAX, mask=m)
         elif option=='ROI_on_whole':
             if mask is None:
@@ -118,7 +118,7 @@ class image_preprocessing:
                 assert len(src) == len(mask), "Number of source images and number of masks do not equal."
                 roi = src.copy()
                 for (i,(g,m)) in enumerate(zip(roi,mask)):
-                    assert len(np.unique(m)) == 2, "Mask is not binary."
+                    #assert len(np.unique(m)) == 2, "Mask is not binary."
                     g[m == 0] = 0
             for (i,(g,r)) in enumerate(zip(src,roi)):
                 # Calculate mean and STD of roi

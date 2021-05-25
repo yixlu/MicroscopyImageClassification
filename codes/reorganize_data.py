@@ -75,7 +75,7 @@ def generate_csv():
     df = df[["label", "label_idx", "file", "path"]]
     return df
 
-def main():
+def reorganize_data():
     """
 	Reorganizes the image files from the folders plate01, plate02, etc into 
 	folders named by the classes of the images they contain.
@@ -84,13 +84,13 @@ def main():
     file_dir = os.path.dirname(os.path.realpath(__file__))
     # switch working directory to data directory 
     main_dir = os.path.dirname(file_dir)
-    os.chdir(main_dir + "\\data")
+    os.chdir(main_dir + "/data")
     # reorganize data if it is not organized already
     labels_df = pd.read_csv("HOwt_doc.txt", sep=";")
     cur_folders = [x[1] for x in os.walk(os.getcwd())][0]
     exp_folders = ["plate0" + str(i) for i in range(1,10)] + ["plate10", "plate11"]
     sor_folders = labels_df.label.to_list()
-    if cur_folders == exp_folders:      # data can be reorganized
+    if sorted(cur_folders) == sorted(exp_folders):      # data can be reorganized
         # collect filenames and labels
         dfs = []
         for filename in ["HOwt_test.txt", "HOwt_val.txt", "HOwt_train.txt"]:
@@ -123,4 +123,4 @@ def main():
     return None
 
 if __name__ == '__main__':
-	main()
+	reorganize_data()

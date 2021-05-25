@@ -35,7 +35,8 @@ class SIFT_FeatureExtractor:
         """
         # SIFT feature extraction
         self.sift = cv2.xfeatures2d.SIFT_create(nfeatures=self.sift_nfeatures)
-        _, des = self.sift.detectAndCompute(X)
+        kp = self.sift.detect(X, None)
+        kp, des = self.sift.compute(X, kp)
         des_all = np.vstack(tuple(des))
         # K-Means clustering of features
         self.kmeans = KMeans(n_clusters=self.kmeans_nclusters)
@@ -57,7 +58,8 @@ class SIFT_FeatureExtractor:
         the training data.
         """
         # SIFT feature extraction
-        _, des = self.sift.detectAndCompute(X)
+        kp = self.sift.detect(X, None)
+        kp, des = self.sift.compute(X, kp)
         n = len(X)
         Xt = np.zeros((n, self.kmeans_nclusters))
         # data transformation for each image
@@ -85,7 +87,8 @@ class SIFT_FeatureExtractor:
         """
          # SIFT feature extraction
         self.sift = cv2.xfeatures2d.SIFT_create(nfeatures=self.sift_nfeatures)
-        _, des = self.sift.detectAndCompute(X)
+        kp = self.sift.detect(X, None)
+        kp, des = self.sift.compute(X, kp)
         des_all = np.vstack(tuple(des))
         # K-Means clustering of features
         self.kmeans = KMeans(n_clusters=self.kmeans_nclusters)

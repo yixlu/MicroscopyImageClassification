@@ -21,7 +21,20 @@ class SWT_FeatureExtractor:
         self.wt = wt
         self.n_levels = n_levels
 
-    def fit_transform(self, X):
+    def fit(self, X=None, y=None):
+        """
+        Dummy function. Created for the conventional purpose of using Pipeline in sklearn.
+        """
+        return None
+
+    def transform(self, X, y=None):
+        """
+        Exactly the same function as fit_transform. Used as a wrapper for fit_transform and
+        for the conventional purpose of using Pipeline in sklearn.
+        """
+        return self.fit_transform(X)
+
+    def fit_transform(self, X, y=None):
         """
         Perform data transformation
         """

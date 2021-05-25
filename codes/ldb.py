@@ -107,12 +107,12 @@ class LDB_FeatureExtractor:
         Main.fit(self.ldb, Xt, y)
         # save attributes
         self.n = self.ldb.n
-        self.Gamma = self.ldb.Γ
-        self.DM = self.ldb.DM
-        self.cost = self.ldb.cost
-        self.tree = self.ldb.tree
-        self.DP = self.ldb.DP
-        self.order = self.ldb.order
+        self.Gamma = np.array(self.ldb.Γ)
+        self.DM = np.array(self.ldb.DM)
+        self.cost = np.array(self.ldb.cost)
+        self.tree = np.array(self.ldb.tree)
+        self.DP = np.array(self.ldb.DP)
+        self.order = np.array(self.ldb.order) - 1 # python follows zero indexing
         return None
 
     def transform(self, X, y=None):
@@ -146,6 +146,14 @@ class LDB_FeatureExtractor:
         # fit and transform the data
         Xf = Main.fit_transform(self.ldb, Xt, y)
         Xf = Xf.T
+        # save attributes
+        self.n = self.ldb.n
+        self.Gamma = np.array(self.ldb.Γ)
+        self.DM = np.array(self.ldb.DM)
+        self.cost = np.array(self.ldb.cost)
+        self.tree = np.array(self.ldb.tree)
+        self.DP = np.array(self.ldb.DP)
+        self.order = np.array(self.ldb.order) - 1 # python follows zero indexing
         return Xf
 
     def inverse_transform(self, X, y=None):

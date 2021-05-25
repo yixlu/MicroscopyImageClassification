@@ -1,5 +1,6 @@
 import cv2
 import pandas as pd
+import numpy as np
 import os
 
 def load_data():
@@ -18,9 +19,9 @@ def load_data():
     # import labels-files.csv as reference
     df = pd.read_csv("labels-files.csv")
     # initialize image and label lists, along with their start indices
-    X_train, y_train, idx_train = ([None]*65000, [None]*65000, 0)
-    X_valid, y_valid, idx_valid = ([None]*12500, [None]*12500, 0)
-    X_test, y_test, idx_test = ([None]*12500, [None]*12500, 0)
+    X_train, y_train, idx_train = ([None]*65000, np.empty(shape=(65000,), dtype=int), 0)
+    X_valid, y_valid, idx_valid = ([None]*12500, np.empty(shape=(12500,), dtype=int), 0)
+    X_test, y_test, idx_test = ([None]*12500, np.empty(shape=(12500,), dtype=int), 0)
     for i in range(90000):
         if df.loc[i,"split"] == "train":
             X_train[idx_train] = cv2.imread(df.loc[i,"path"])

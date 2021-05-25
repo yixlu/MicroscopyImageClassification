@@ -37,7 +37,15 @@ class SIFT_FeatureExtractor:
         self.sift = cv2.xfeatures2d.SIFT_create(nfeatures=self.sift_nfeatures)
         kp = self.sift.detect(X, None)
         kp, des = self.sift.compute(X, kp)
-        des_all = np.vstack(tuple(des))
+        # stack all descriptors
+        des_all = np.empty(shape=(0,128), dtype=np.float64)
+        for de in des:
+            if de is None:
+                pass
+            elif de.ndim == 1:
+                des_all = np.append(des_all, [de], axis=0)
+            else:
+                des_all = np.append(des_all, de, axis=0)
         # K-Means clustering of features
         self.kmeans = KMeans(n_clusters=self.kmeans_nclusters)
         self.kmeans.fit(des_all)
@@ -64,7 +72,7 @@ class SIFT_FeatureExtractor:
         Xt = np.zeros((n, self.kmeans_nclusters))
         # data transformation for each image
         for (i, de) in enumerate(des):
-            labs = self.kmeans.predict(de)
+            labs = self.kmeans.predict(de.astype(np.float64)) if de is not None else []
             v, c = np.unique(labs, return_counts=True)
             for j in range(self.kmeans_nclusters):
                 if j in v:
@@ -89,7 +97,15 @@ class SIFT_FeatureExtractor:
         self.sift = cv2.xfeatures2d.SIFT_create(nfeatures=self.sift_nfeatures)
         kp = self.sift.detect(X, None)
         kp, des = self.sift.compute(X, kp)
-        des_all = np.vstack(tuple(des))
+        # stack all descriptors
+        des_all = np.empty(shape=(0,128), dtype=np.float64)
+        for de in des:
+            if de is None:
+                pass
+            elif de.ndim == 1:
+                des_all = np.append(des_all, [de], axis=0)
+            else:
+                des_all = np.append(des_all, de, axis=0)
         # K-Means clustering of features
         self.kmeans = KMeans(n_clusters=self.kmeans_nclusters)
         self.kmeans.fit(des_all)
@@ -97,10 +113,54 @@ class SIFT_FeatureExtractor:
         Xt = np.zeros((n, self.kmeans_nclusters))
         # data transformation for each image
         for (i, de) in enumerate(des):
-            labs = self.kmeans.predict(de)
+            labs = self.kmeans.predict(de.astype(np.float64)) if de is not None else []
             v, c = np.unique(labs, return_counts=True)
             for j in range(self.kmeans_nclusters):
                 if j in v:
                     idx = np.where(v == j)
                     Xt[i,j] = c[idx[0][0]]
         return Xt
+
+if __name__ == '__main__':
+    import utils
+    import reorganize_data
+    import image_preprocessing
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.metrics import classification_report
+    
+    # ensure data reorganized
+    reorganize_data.reorganize_data()
+    # load data
+    (X_train, y_train), (X_valid, y_valid), (X_test, y_test) = utils.load_data()
+    # split and preprocess channels
+    image_processor = image_preprocessing.image_preprocessing()
+    # preprocess train data
+    _ = image_processor.split_channels(X_train)
+    _,_ = image_processor.ROI()
+    Xn_train = image_processor.image_normalize(option="ROI")
+    # preprocess valid data
+    _ = image_processor.split_channels(X_valid)
+    _,_ = image_processor.ROI()
+    Xn_valid = image_processor.image_normalize(option="ROI")
+    # preprocess train data
+    _ = image_processor.split_channels(X_test)
+    _,_ = image_processor.ROI()
+    Xn_test = image_processor.image_normalize(option="ROI")
+    # sift feature extractor
+    sift_ = SIFT_FeatureExtractor()
+    Xsift_train = sift_.fit_transform(Xn_train)
+    Xsift_valid = sift_.transform(Xn_valid)
+    Xsift_test = sift_.transform(Xn_test)
+    # model fitting
+    rf = RandomForestClassifier()
+    rf.fit(Xsift_train, y_train)
+    yhat_train = rf.fit_predict(Xsift_train,)
+    yhat_valid = rf.predict(Xsift_valid)
+    yhat_test = rf.predict(Xsift_test)
+    # evaluate model
+    print("\nTrain data:")
+    print(classification_report(y_train, yhat_train))
+    print("\nValidation data:")
+    print(classification_report(y_valid, yhat_valid))
+    print("\nTest data:")
+    print(classification_report(y_test, yhat_test))

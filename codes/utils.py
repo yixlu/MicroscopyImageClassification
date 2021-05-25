@@ -14,7 +14,7 @@ def load_data():
     file_dir = os.path.dirname(os.path.realpath(__file__))
     # switch working directory to data directory 
     main_dir = os.path.dirname(file_dir)
-    os.chdir(main_dir + "\\data")
+    os.chdir(main_dir + "/data")
     # import labels-files.csv as reference
     df = pd.read_csv("labels-files.csv")
     # initialize image and label lists, along with their start indices

@@ -8,6 +8,17 @@ We plan to do a multi-class image classification data analysis project. The data
 The pipeline for our project goes as follows: preprocessing → model fitting → model ensembling. For preprocessing methods, we planned to work with feature detection and extraction (such as Scale-Invariant Feature Transform (SIFT), Wavelet Transforms, Wavelet Scattering Transforms, Speed-Up Robust Features etc) and some dimension reduction techniques (such as PCA, Kernel PCA, t-SNE, LDA). The Python libraries that we will mainly use will therefore be Scikit-Learn, OpenCV, PyWavelets, and possibly Tensorflow. The anticipated issue here is that the aforementioned pre-processing methods might not work well at all, and might result in subpar performances. To counter this issue, we plan to utilize stacking ensemble techniques on multiple subpar models to improve classification results. Ideally, we hope to obtain results that can rival the VGG network architecture discussed in the original paper, yet much more achievable on regular computers without GPUs, ie. less computationally expensive.
 
 ## Setup
+The setup for reproducing our work follows 3 main parts: 
+* Julia installation (our project imports Julia code via PyJulia)
+* Dataset organization
+* Activating our given environment using `environment.yml`
+
+### Part 1: Installing Julia
+This step is relatively straightforward. One can download Julia from their [official page](https://julialang.org/downloads/). At the time of writing, the stable version of Julia is v1.6.1.
+
+The purpose of this step is to allow for the use of PyJulia later on. PyJulia is a library in Python that calls the codes from Julia. Once Julia is downloaded, you are set. There is no prior knowledge in Julia programming required as wrapper functions have been written in place for the purpose of this project.
+
+### Part 2: Organizing dataset
 
 1. Download the dataset and all its required files. Here are the links to download them:  
     * [Image data](https://kodu.ut.ee/~leopoldp/2016_DeepYeast/data/main.tar.gz)
@@ -41,4 +52,21 @@ $ tar xzvf main.tar.gz
 $ python codes/reorganize-data.py
 ```
 
-6. This project contains code that calls Julia functions via PyJulia. To reproduce the full results, one needs to have Julia installed on their local machine. Visit [https://julialang.org/downloads/](https://julialang.org/downloads/) to download Julia. Once Julia is downloaded, you are set. There is no prior knowledge in Julia programming required as wrapper functions have been written in place for the purpose of this project.
+### Part 3: Activating environment
+Our project requires the use of various libraries. Depending on the versions used, some updated versions of certain libraries are not compatible with running this project, and therefore we recommend that one creates a conda environment that match ours.
+
+*Note: Part 2 is assumed to be completed before continuing to Part 3.*
+
+1. Navigate to the repo directory. You'll notice a file named `environment.yml`. Create the environment from the `environment.yml` file:
+```shell
+conda env create -f environment.yml
+```
+
+2. The environment name for this conda environment is `cells`. This environment has to be activated every time the project is run. To activate this environment, hit:
+```shell
+conda activate cells
+```
+3. You are done. You can verify that `cells` is activated using:
+```shell
+conda env list
+```

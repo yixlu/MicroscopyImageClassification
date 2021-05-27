@@ -138,3 +138,6 @@ data/main.tar.gz
 
 # cache settings
 .vscode
+
+# data files
+*.npz

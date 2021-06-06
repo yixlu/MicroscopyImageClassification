@@ -18,11 +18,16 @@ class SIFT_FeatureExtractor:
     - sift_nfeatures => default=0 (all features used)
     - kmeans_nclusters => default=5
     """
-    def __init__(self, sift_nfeatures=0, kmeans_nclusters=5):
+    def __init__(self, sift_nfeatures=0, sift_nOctaveLayers=3, sift_contrastThreshold=0.04,
+                 sift_edgeThreshold=10, sift_sigma=1.6, kmeans_nclusters=5):
         """
         Constructor for the SIFT Feature Extractor object.
         """
         self.sift_nfeatures = sift_nfeatures
+        self.sift_nOctaveLayers = sift_nOctaveLayers
+        self.sift_contrastThreshold = sift_contrastThreshold
+        self.sift_edgeThreshold = sift_edgeThreshold
+        self.sift_sigma = sift_sigma
         self.kmeans_nclusters = kmeans_nclusters
 
     def fit(self, X):
@@ -34,7 +39,13 @@ class SIFT_FeatureExtractor:
         2. Using k-means to cluster the descriptors.
         """
         # SIFT feature extraction
-        self.sift = cv2.xfeatures2d.SIFT_create(nfeatures=self.sift_nfeatures)
+        self.sift = cv2.xfeatures2d.SIFT_create(
+            nfeatures=self.sift_nfeatures,
+            nOctaveLayers=self.sift_nOctaveLayers,
+            contrastThreshold=self.sift_contrastThreshold,
+            edgeThreshold=self.sift_edgeThreshold,
+            sigma=self.sift_sigma
+        )
         kp = self.sift.detect(X, None)
         kp, des = self.sift.compute(X, kp)
         # stack all descriptors

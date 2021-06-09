@@ -7,7 +7,12 @@ We plan to do a multi-class image classification data analysis project. The data
 
 The pipeline for our project goes as follows: preprocessing → model fitting → model ensembling. For preprocessing methods, we planned to work with feature detection and extraction (such as Scale-Invariant Feature Transform (SIFT), Wavelet Transforms, Wavelet Scattering Transforms, Haralick Features etc) and some dimension reduction techniques (such as PCA). The Python libraries that we will mainly use will therefore be Scikit-Learn, OpenCV, and PyWavelets. Ideally, we hope to obtain results that can rival the models discussed in the original paper, yet much more achievable on regular computers without GPUs, ie. less computationally expensive.
 
-## Setup
+## Table of Contents
+1. [Setup](#setup)
+2. [Feature extraction codes](codes/)
+3. [Data analysis and model fitting notebook](notebook/Methodology.ipynb)
+
+## Setup <a name="setup"></a>
 The setup for reproducing our work follows 3 main parts: 
 * Julia installation (our project imports Julia code via PyJulia)
 * Dataset organization

@@ -9,6 +9,7 @@ High-throughput microscopic images of single cells provide a rich source of biol
 1. [Setup](#setup)
 2. [Feature extraction codes](codes/)
 3. [Data analysis and model fitting notebook](notebook/Methodology.ipynb)
+4. [Report](report.pdf)
 
 ## Setup <a name="setup"></a>
 The setup for reproducing our work follows 3 main parts: 

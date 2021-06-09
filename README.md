@@ -1,13 +1,18 @@
-# Efficient classification of microscopy images
+# Classification of subcellular protein locations in microscopic images using random forest machine learning: comparison of different feature extraction methods
 
 Group members: Zeng Fung Liew, Yixing Lu
 
 ## Abstract
-We plan to do a multi-class image classification data analysis project. The dataset is obtained from [http://www.cs.ut.ee/∼leopoldp/2016_DeepYeast](http://www.cs.ut.ee/∼leopoldp/2016_DeepYeast). It is a set of single cell images extracted by Pärnamaa et. al (2017) from the original image library described in Chong et. al (2015). Each sample is a 64*64 pixel RGB image which contains two channels: red channel (RFP) shows the cell outline and green channel (GFP) shows the different subcellular location of protein of interest. There are a total of 12 different subcellular protein location classes, with some class imbalance present. The classes are disjoint, meaning one image will be assigned to only one class. Single cell images will be used as training and test set for the project since cell segmentation is not the focus for the current project. The objective of the project is to classify the subcellular protein locations based on single cell fluorescent images.
+We plan to do a multi-class image classification data analysis project. The dataset is obtained from [https://kodu.ut.ee/~leopoldp/2016_DeepYeast/](https://kodu.ut.ee/~leopoldp/2016_DeepYeast/). It is a set of single cell images extracted by Pärnamaa et. al (2017) from the original image library described in Chong et. al (2015). Each sample is a 64*64 pixel RGB image which contains two channels: red channel (RFP) shows the cell outline and green channel (GFP) shows the different subcellular location of protein of interest. There are a total of 12 different subcellular protein location classes, with some class imbalance present. The classes are disjoint, meaning one image will be assigned to only one class. Single cell images will be used as training and test set for the project since cell segmentation is not the focus for the current project. The objective of the project is to classify the subcellular protein locations based on single cell fluorescent images.
 
-The pipeline for our project goes as follows: preprocessing → model fitting → model ensembling. For preprocessing methods, we planned to work with feature detection and extraction (such as Scale-Invariant Feature Transform (SIFT), Wavelet Transforms, Wavelet Scattering Transforms, Speed-Up Robust Features etc) and some dimension reduction techniques (such as PCA, Kernel PCA, t-SNE, LDA). The Python libraries that we will mainly use will therefore be Scikit-Learn, OpenCV, PyWavelets, and possibly Tensorflow. The anticipated issue here is that the aforementioned pre-processing methods might not work well at all, and might result in subpar performances. To counter this issue, we plan to utilize stacking ensemble techniques on multiple subpar models to improve classification results. Ideally, we hope to obtain results that can rival the VGG network architecture discussed in the original paper, yet much more achievable on regular computers without GPUs, ie. less computationally expensive.
+The pipeline for our project goes as follows: preprocessing → model fitting → model ensembling. For preprocessing methods, we planned to work with feature detection and extraction (such as Scale-Invariant Feature Transform (SIFT), Wavelet Transforms, Wavelet Scattering Transforms, Haralick Features etc) and some dimension reduction techniques (such as PCA). The Python libraries that we will mainly use will therefore be Scikit-Learn, OpenCV, and PyWavelets. Ideally, we hope to obtain results that can rival the models discussed in the original paper, yet much more achievable on regular computers without GPUs, ie. less computationally expensive.
 
-## Setup
+## Table of Contents
+1. [Setup](#setup)
+2. [Feature extraction codes](codes/)
+3. [Data analysis and model fitting notebook](notebook/Methodology.ipynb)
+
+## Setup <a name="setup"></a>
 The setup for reproducing our work follows 3 main parts: 
 * Julia installation (our project imports Julia code via PyJulia)
 * Dataset organization
